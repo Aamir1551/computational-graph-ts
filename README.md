@@ -4,7 +4,7 @@ A comutational graph (numerical library) made in TS (for future use in genetic a
 
 basic usage:
 
-a = ml.variable(new Matrix(1, 1, 2))
+a = ml.variable(new Matrix(1, 1, 2))\\
 
 b = ml.variable(4)
 
