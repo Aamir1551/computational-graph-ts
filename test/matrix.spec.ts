@@ -46,6 +46,22 @@ describe("Testing Matrix Creation", function() {
     })
 })
 
-describe("testing Matrix operations", function() {
+describe("Testing Matrix operations", function() {
+    var m:Array<Matrix> = [];
+    beforeAll(()=>{
+        m.push(Matrix.arange(6, 8));
+        m.push(Matrix.arange(8, 7));
+        m.push(Matrix.arange(4, 3));
+        m.push(new Matrix(4, 3, 9));
+    })
+
+    test("Transpose", ()=>{
+        let transposed = Matrix.transpose(m[0]);
+        for(let i=0;i<m[0].columns;i++) {
+            for(let j=0; j<m[0].rows; j++) {
+                expect(transposed.values[i][j]).toBe(m[0].values[j][i]); 
+            }
+        }
+    })
 
 })
