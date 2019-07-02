@@ -19,9 +19,9 @@ describe("Testing Matrix Creation", function() {
 
     test("Creates matrix where each index is assigned a value in ascending order", () => {
         expect(m[1].values).toEqual(
-            [[1, 2, 3, 4, 5, 6, 7], 
-            [8, 9, 10, 11, 12, 13, 14], 
-            [15, 16, 17, 18, 19, 20, 21]]);
+            [[0, 1, 2, 3, 4, 5, 6], 
+            [7, 8, 9, 10, 11, 12, 13], 
+            [14, 15, 16, 17, 18, 19, 20]]);
     })
 
     test("Creates matrix where each element is chosen randomly from -4-10", ()=>{
@@ -49,10 +49,11 @@ describe("Testing Matrix Creation", function() {
 describe("Testing Matrix operations", function() {
     var m:Array<Matrix> = [];
     beforeAll(()=>{
-        m.push(Matrix.arange(6, 8));
-        m.push(Matrix.arange(8, 7));
-        m.push(Matrix.arange(4, 3));
-        m.push(new Matrix(4, 3, 9));
+        m.push(Matrix.randMatrix(6, 8, -10, 10));
+        m.push(Matrix.randMatrix(8, 13, -10, 10));
+        m.push(Matrix.randMatrix(8, 13, -10, 10));
+        m.push(Matrix.arange(8, 3));
+        m.push(Matrix.arange(3, 16));
     })
 
     test("Transpose", ()=>{
@@ -62,6 +63,66 @@ describe("Testing Matrix operations", function() {
                 expect(transposed.values[i][j]).toBe(m[0].values[j][i]); 
             }
         }
+    })
+
+    test("Addition", ()=> {
+        let r = Matrix.add(m[1], m[2]);
+        for(let i=0; i<r.rows; i++) {
+            for(let j=0; j<r.columns; j++) {
+                expect(r.values[i][j]).toBeCloseTo(m[1].values[i][j] + m[2].values[i][j]);
+            }
+        }
+    })
+
+    test("Multiplication-elementwise", ()=> {
+        let r = Matrix.multiply(m[1], m[2]);
+        for(let i=0; i<r.rows; i++) {
+            for(let j=0; j<r.columns; j++) {
+                expect(r.values[i][j]).toBeCloseTo(m[1].values[i][j] * m[2].values[i][j]);
+            }
+        }
+    })
+
+    test("Subtraction", ()=> {
+        let r = Matrix.subtract(m[1], m[2]);
+        for(let i=0; i<r.rows; i++) {
+            for(let j=0; j<r.columns; j++) {
+                expect(r.values[i][j]).toBeCloseTo(m[1].values[i][j] - m[2].values[i][j]);
+            }
+        }
+    })
+
+    test("Division", ()=> {
+        let r = Matrix.divide(m[1], m[2]);
+        for(let i=0; i<r.rows; i++) {
+            for(let j=0; j<r.columns; j++) {
+                expect(r.values[i][j]).toBeCloseTo(m[1].values[i][j] / m[2].values[i][j]);
+            }
+        }
+    })
+
+    test("Scaler Multiplicaiton", ()=> {
+        let s: number = 8
+        let r = Matrix.scalerMultiply(m[1], s);
+        for(let i=0; i<r.rows; i++) {
+            for(let j=0; j<r.columns; j++) {
+                expect(r.values[i][j]).toBeCloseTo(m[1].values[i][j] * s);
+            }
+        }
+    })
+
+    test("Matrix multiplication", () => {
+        let s:Matrix = Matrix.matmul(m[3], m[4]);
+        //been tested using numpy
+        //console.log(s.values);
+    })
+
+    test("Determinent", () => {
+
+    })
+
+    test("Inverse", () => {
+
     })
 
 })
