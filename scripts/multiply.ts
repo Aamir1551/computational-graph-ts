@@ -10,12 +10,12 @@ export class Multiply extends CompNode {
     }
 
     addDirivatives(): void {
-        Multiply.updateDelta(this.feeders[0], Matrix.multiply(this.feeders[1].value, this.delta));
-        Multiply.updateDelta(this.feeders[1], Matrix.multiply(this.feeders[0].value, this.delta));
+        Multiply.updateDelta(this.feeders[0], Matrix.multiply(this.feeders[1].value, this._delta));
+        Multiply.updateDelta(this.feeders[1], Matrix.multiply(this.feeders[0].value, this._delta));
     }
 
     resetDelta(d:number=0) {
-        this.delta = new Matrix(this.feeders[0].value.rows, this.feeders[0].value.columns, d);
+        this._delta = new Matrix(this.feeders[0].value.rows, this.feeders[0].value.columns, d);
     }
 
     public compute() : void{

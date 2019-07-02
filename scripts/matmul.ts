@@ -10,12 +10,12 @@ export class Matmul extends CompNode {
     }
 
     addDirivatives(): void {
-        CompNode.updateDelta(this.feeders[0], Matrix.matmul(this.delta, Matrix.transpose(this.feeders[1].value)));
-        CompNode.updateDelta(this.feeders[1], Matrix.matmul(Matrix.transpose(this.feeders[0].value) , this.delta));
+        CompNode.updateDelta(this.feeders[0], Matrix.matmul(this._delta, Matrix.transpose(this.feeders[1].value)));
+        CompNode.updateDelta(this.feeders[1], Matrix.matmul(Matrix.transpose(this.feeders[0].value) , this._delta));
     }
 
     resetDelta(d:number = 0) {
-        this.delta = new Matrix(this.feeders[0].value.rows, this.feeders[1].value.columns, d);
+        this._delta = new Matrix(this.feeders[0].value.rows, this.feeders[1].value.columns, d);
     }
 
     public compute() : void{

@@ -15,7 +15,7 @@ export class Matrix {
         let c = new Matrix(rows, columns, 0);
         for(let i=0; i<rows; i++) {
             for(let j=0; j<columns; j++) {
-                c._values[i][j] = i*columns + j + 1;
+                c._values[i][j] = i*columns + j;
             }
         }
         return c;
@@ -50,7 +50,7 @@ export class Matrix {
         let c:Matrix = new Matrix(a.rows, b.columns);
         for(let i=0; i<a.rows;i++) {
             for(let j=0; j<b.columns;j++) {
-                let temp = 0;
+                let temp:number = 0;
                 for(let k=0; k<a.columns;k++) {
                     temp += a._values[i][k] * b._values[k][j]; 
                 }

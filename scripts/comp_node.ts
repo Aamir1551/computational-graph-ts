@@ -5,7 +5,7 @@ export abstract class CompNode {
     
     protected _value:Matrix;
     protected feeders:Array<CompNode> = [];
-    protected delta:Matrix;
+    protected _delta:Matrix;
 
     public abstract compute() : void;
     
@@ -18,14 +18,18 @@ export abstract class CompNode {
         return this._value;
     }
 
+    get delta() {
+        return this._delta;
+    }
+
     protected static updateDelta(n:CompNode, dx:Matrix) : void {
-        n.delta = Matrix.add(n.delta, dx);
+        n._delta = Matrix.add(n._delta, dx);
     }
     
     abstract resetDelta(d:number):void; 
 
     public initializeDelta(d:Matrix):void {
-        this.delta = d;
+        this._delta = d;
     }
 
     abstract addDirivatives():void;        
