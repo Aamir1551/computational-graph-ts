@@ -1,0 +1,25 @@
+{
+  "name": "computational-graph",
+  "version": "1.0.0",
+  "description": "A computational graph made in typescript",
+  "main": "./src/index.html",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "aamir",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.2",
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "dependencies": {
+    "jest": "^24.8.0",
+    "ts-jest": "^24.0.2"
+  }
+}
