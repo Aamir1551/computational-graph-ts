@@ -55,6 +55,7 @@ describe("Add node graph", () => {
         m[9].resetDelta(1);
         m[9].initialiseBackProp();
         expect(m[0].delta).toEqual(new Matrix(3, 8, 0));
+        m[9].resetDelta(1);
         m[9].addDirsPropagate();
         expect(m[1].delta).toEqual(new Matrix(3, 8, 1));
         expect(m[4].delta).toEqual(new Matrix(3, 8, 1));
