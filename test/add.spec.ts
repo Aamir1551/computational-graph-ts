@@ -59,9 +59,10 @@ describe("Add node graph", () => {
         expect(m[1].delta).toEqual(new Matrix(3, 8, 1));
         expect(m[4].delta).toEqual(new Matrix(3, 8, 1));
         expect(m[5].delta).toEqual(new Matrix(3, 8, 2));
-        expect(m[3].delta).toEqual(new Matrix(3, 8, 3));
         expect(m[2].delta).toEqual(new Matrix(3, 8, 1));
-        expect(m[0].delta).toEqual(new Matrix(3, 8, 3));
+        //above all pass
+        expect(m[3].delta).toEqual(new Matrix(3, 8, 3)); //fails
+        expect(m[0].delta).toEqual(new Matrix(3, 8, 3)); //fails
     })
 
     test("reset deltas", ()=> {
