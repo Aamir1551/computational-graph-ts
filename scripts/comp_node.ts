@@ -7,12 +7,15 @@ export abstract class CompNode {
     protected feeders:Array<CompNode> = [];
     protected _delta:Matrix;
 
+    public constructor() {}
+
+    //comuters a value for that node (using its feeders value and its operation)
     public abstract compute() : void;
     
     public computeNew() : void {
         this.feeders.forEach(x=>x.computeNew());
         this.compute();
-    }
+    } //computers a new value for that node and for its feeeders (recursively)
 
     get value() {
         return this._value;
@@ -32,11 +35,14 @@ export abstract class CompNode {
         this._delta = d;
     }
 
-    abstract addDirivatives():void;        
+    public initialiseBackProp(): void {
+        this.feeders.forEach(x=>{x.resetDelta(0), x.initialiseBackProp()});
+    }
 
-    public addDirsPropagate() : void {
+    abstract addDirivatives():void; //calculates new derivatives for itself (using its feeders values)
+
+    public addDirsPropagate() : void { //calculates new derivatives for itself and its feeders (recursively)
         this.addDirivatives();
-        this.feeders.forEach(x=>x.addDirivatives());
-        this.feeders.forEach(x=>this.addDirsPropagate());
+        this.feeders.forEach(x=>x.addDirsPropagate());
     }
 }
