@@ -24,7 +24,7 @@ export class Minimiser {
     static MinimiseNode(y:CompNode, vars:Array<Variable>, learningRate:number, iterations:number) {
         for(let i=0; i<iterations; i++) {
             y.computeNew();
-            console.log(y.value);
+            y.initialiseBackProp();
             y.resetDelta(1);
             y.addDirsPropagate();
             vars.forEach(x=>x.update(learningRate));

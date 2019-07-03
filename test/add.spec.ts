@@ -1,6 +1,8 @@
 import { Add } from "../scripts/add";
 import { Matrix } from "../scripts/matrix";
 import { Variable } from "../scripts/variable";
+import { CompNode } from "../scripts/comp_node";
+import { Minimiser } from "../scripts/minimiser";
 
 describe("Add Node creation", ()=> {
     let m:Array<Add> = []
@@ -24,11 +26,7 @@ describe("Add Node creation", ()=> {
 })
 
 describe("Add node graph", () => {
-    //test for inference
-    //test for dirivatives
-    //test to see if delta can be set back to zero after a backprop
-
-    let m:Array<Add> = []
+    let m:Array<CompNode> = []
     let a:Matrix, b:Matrix, c:Matrix, d:Matrix = undefined;
     beforeAll(() => {
         m.push(new Variable(Matrix.randMatrix(3, 8, -10, 10), true)); //a
@@ -61,20 +59,41 @@ describe("Add node graph", () => {
         expect(m[4].delta).toEqual(new Matrix(3, 8, 1));
         expect(m[5].delta).toEqual(new Matrix(3, 8, 2));
         expect(m[2].delta).toEqual(new Matrix(3, 8, 1));
-        //above all pass
-        expect(m[3].delta).toEqual(new Matrix(3, 8, 3)); //fails -- gives 4 instead
-        expect(m[0].delta).toEqual(new Matrix(3, 8, 3)); //fails -- gives 4 instead
+        expect(m[3].delta).toEqual(new Matrix(3, 8, 3)); 
+        expect(m[0].delta).toEqual(new Matrix(3, 8, 3)); 
+    })
+
+    test("updates", ()=> {
+        (m[0] as Variable).update(0.01);
+        expect(m[0].value).toEqual(Matrix.subtract(a, Matrix.scalerMultiply(m[0].delta, 0.01)));
+        (m[1] as Variable).update(0.01);
+        expect(m[1].value).toEqual(Matrix.subtract(b, Matrix.scalerMultiply(m[1].delta, 0.01)));
     })
 
     test("reset deltas", ()=> {
-        return true
+        m[9].resetDelta(0);
+        m[9].initialiseBackProp();
+        m.forEach(x=>expect(x.delta).toEqual(new Matrix(3, 8, 0)));
+        m[9].resetDelta(1);
     })
 
     test("second iteration", ()=> {
-        return true;
+        m[9].resetDelta(1);
+        m[9].initialiseBackProp();
+        expect(m[0].delta).toEqual(new Matrix(3, 8, 0));
+        m[9].addDirsPropagate();
+        expect(m[1].delta).toEqual(new Matrix(3, 8, 1));
+        expect(m[4].delta).toEqual(new Matrix(3, 8, 1));
+        expect(m[5].delta).toEqual(new Matrix(3, 8, 2));
+        expect(m[2].delta).toEqual(new Matrix(3, 8, 1));
+        expect(m[3].delta).toEqual(new Matrix(3, 8, 3)); 
+        expect(m[0].delta).toEqual(new Matrix(3, 8, 3));
     })
 
     test("Minimise iteration", ()=> {
-        return true;
+        let before = m[9].value.values;
+        Minimiser.MinimiseNode(m[9], [m[0] as Variable, m[1] as Variable, m[2] as Variable, m[3] as Variable], 
+            0.01, 100);
+        expect(m[9].value.values[0][0]).toBeLessThan(before[0][0]);
     })
 })

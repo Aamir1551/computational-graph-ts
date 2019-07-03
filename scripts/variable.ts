@@ -15,9 +15,7 @@ export class Variable extends CompNode {
         this._delta = new Matrix(initialValue.rows, initialValue.columns, 0); 
     }
 
-    compute(): void {
-        this._value = this.initialValue;
-    }
+    compute(): void {}
 
     update(learningRate:number) : void {
         if(this.optimise == true) {
