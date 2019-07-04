@@ -1,5 +1,5 @@
 {
-  "name": "computational-graph",
+  "name": "@aamir101/computational-graph",
   "version": "1.0.0",
   "description": "A computational graph made in typescript",
   "main": "./src/index.html",
@@ -21,5 +21,16 @@
     "webpack-cli": "^3.3.5",
     "webpack-dev-server": "^3.7.2"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aamir1551/computational-graph-ts.git"
+  },
+  "keywords": [
+    "computational-graph"
+  ],
+  "bugs": {
+    "url": "https://github.com/Aamir1551/computational-graph-ts/issues"
+  },
+  "homepage": "https://github.com/Aamir1551/computational-graph-ts#readme"
 }
