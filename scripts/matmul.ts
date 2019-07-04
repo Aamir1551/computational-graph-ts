@@ -7,6 +7,8 @@ export class Matmul extends CompNode {
        super();
        this.feeders.push(a);
        this.feeders.push(b); 
+       CompNode.addFeeds(a, this);
+       CompNode.addFeeds(b, this);
     }
 
     addDirivatives(): void {

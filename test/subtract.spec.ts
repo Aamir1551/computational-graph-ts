@@ -4,14 +4,16 @@ import { Variable } from "../scripts/variable";
 import { CompNode } from "../scripts/comp_node";
 import { Minimiser } from "../scripts/minimiser";
 import { Multiply } from "../scripts/multiply";
+import { subtract } from "../scripts/subtract";
 
-//needs to be made
+//division tests are similar to elementwise-multiplication, 
+//with the exception that negatives are handles using subtraction
 describe("Subtract Node creation", ()=> {
     let m:Array<Multiply> = []
     beforeAll(() => {
         m.push(new Variable(Matrix.randMatrix(3, 8, -10, 10), true));
         m.push(new Variable(Matrix.randMatrix(3, 8, -10, 10), true));
-        m.push(new Multiply(m[0], m[1]));
+        m.push(new subtract(m[0], m[1]));
         m[2].computeNew();
     })
 
@@ -27,7 +29,7 @@ describe("Subtract Node creation", ()=> {
     })
 
     test("Testing compute", () => {
-        expect(m[2].value).toEqual(Matrix.multiply(m[0].value, m[1].value));
+        expect(m[2].value).toEqual(Matrix.subtract(m[0].value, m[1].value));
     })
 
 })
@@ -40,10 +42,10 @@ describe("Subtract node graph (4x^3 - 6x^2 - 11x + 5 = y)", () => {
         m.push(new Multiply(x, x)); //m[0] = x^2
         m.push(new Multiply(m[0], x)); //m[1] = x^3
         m.push(new Multiply(m[1], new Variable(new Matrix(2, 3, 4), false))); //m[2] = 4x^3
-        m.push(new Multiply(m[0], new Variable(new Matrix(2, 3, -6), false))); //m[3] = -6x^2
-        m.push(new Multiply(x, new Variable(new Matrix(2, 3, -11), false))); //m[4] = -11x
-        m.push(new Add(m[2], m[3])); //m[5] = 4x^3 - 6x^2
-        m.push(new Add(m[4], new Variable(new Matrix(2, 3, 5)))) //m[6] = -11x + 5
+        m.push(new Multiply(m[0], new Variable(new Matrix(2, 3, 6), false))); //m[3] = 6x^2
+        m.push(new Multiply(x, new Variable(new Matrix(2, 3, 11), false))); //m[4] = 11x
+        m.push(new subtract(m[2], m[3])); //m[5] = 4x^3 - 6x^2
+        m.push(new subtract(new Variable(new Matrix(2, 3, 5)), m[4])) //m[6] = 5 - 11x
         m.push(new Add(m[5], m[6])); //m[7] = 4x^3 - 6x^2 -11x + 5
     })   
 
@@ -86,9 +88,9 @@ describe("Subtract node graph (ab^2 + ab + 5 - 3a^2b)", () => {
         m.push(new Multiply(a, b)); //m[0] = ab
         m.push(new Multiply(m[0], b)); //m[1] = ab^2
         m.push(new Multiply(m[0], a)); //m[2] = ba^2
-        m.push(new Multiply(m[2], new Variable(new Matrix(2, 3, -3), false))); //m[3] = -3ba^2
+        m.push(new Multiply(m[2], new Variable(new Matrix(2, 3, 3), false))); //m[3] = 3ba^2
         m.push(new Add(m[1], m[0])); //m[4] = ab^2 + ab
-        m.push(new Add(new Variable(new Matrix(2, 3, 5), false), m[3])); //m[5] = 5 - 3ba^2
+        m.push(new subtract(new Variable(new Matrix(2, 3, 5), false), m[3])); //m[5] = 5 - 3ba^2
         m.push(new Add(m[4], m[5])); //m[6] = ab^2 + ab + 5 - 3ba^2
     })
 
@@ -121,4 +123,4 @@ describe("Subtract node graph (ab^2 + ab + 5 - 3a^2b)", () => {
         expect(b.delta).toEqual(new Matrix(2, 3, 0));
         m[6].resetDelta(1);
     })
-}
+})

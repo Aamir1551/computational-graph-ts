@@ -5,7 +5,7 @@ export class subtract extends CompNode {
 
     addDirivatives(): void {
         CompNode.updateDelta(this.feeders[0], Matrix.multiply(new Matrix(this.feeders[0].value.rows, this.feeders[0].value.columns, 1), this._delta));
-        CompNode.updateDelta(this.feeders[0], Matrix.multiply(new Matrix(this.feeders[0].value.rows, this.feeders[0].value.columns, -1), this._delta));
+        CompNode.updateDelta(this.feeders[1], Matrix.multiply(new Matrix(this.feeders[0].value.rows, this.feeders[0].value.columns, -1), this._delta));
     }
 
     resetDelta(d:number = 0) {
@@ -16,6 +16,8 @@ export class subtract extends CompNode {
        super();
        this.feeders.push(a);
        this.feeders.push(b); 
+       CompNode.addFeeds(a, this);
+       CompNode.addFeeds(b, this);
     }
 
     public compute() : void{
