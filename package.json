@@ -1,5 +1,5 @@
 {
-  "name": "@aamir101/computational-graph",
+  "name": "computational-graph",
   "version": "1.0.0",
   "description": "A computational graph made in typescript",
   "main": "./src/index.html",
