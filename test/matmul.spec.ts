@@ -6,7 +6,7 @@ import { Multiply } from "../scripts/multiply";
 import { Matmul } from "../scripts/matmul";
 
 describe("Matmul Node creation", ()=> {
-    let m:Array<Multiply> = []
+    let m:Array<Matmul> = []
     beforeAll(() => {
         m.push(new Variable(Matrix.randMatrix(3, 8, -10, 10), true));
         m.push(new Variable(Matrix.randMatrix(8, 7, -10, 10), true));
@@ -31,40 +31,46 @@ describe("Matmul Node creation", ()=> {
 
 })
 
-describe("Matmul node graph (4x^3 - 6x^2 - 11x + 5 = y)", () => {
-    let m:Array<CompNode> = []
-    let x:Variable;
+describe("Matmul node graph (a**b = y)", () => {
+    let m:Array<CompNode> = [], a:Variable, b:Variable;
     beforeAll(() => {
-        x = new Variable(Matrix.randMatrix(2, 3, -3, 3));
-        
-    
+        a = new Variable(new Matrix(2, 8, 3));
+        b = new Variable(new Matrix(8, 3, 7));
+        m.push(new Matmul(a, b)); //m[0] = a**b shape(m[0]) = 2x3
     })   
 
     test("Testing compute", () => {
-        m[7].computeNew();
-        let t = x.value.values[0][0];
-        expect(m[7].value.values[0][0]).toBeCloseTo(4 * t*t*t - 6 * t*t - 11 * t + 5);
+        m[0].computeNew();
+        let t = Matrix.matmul(a.value, b.value);
+        for(let i=0; i<m[0].value.rows; i++) {
+            for(let j=0; j<m[0].value.columns; j++) {
+                expect(m[0].value.values[i][j]).toBeCloseTo(t.values[i][j]);
+            }
+        }
     })
 
     test("Testing backprop", ()=> {
 
         //compare backrpop against tensorflow values
-        m[7].resetDelta(1); 
-        m[7].initialiseBackProp();
-        expect(m[0].delta).toEqual(new Matrix(2, 3, 0));
-        m[7].addDirsPropagate();
+        m[0].resetDelta(1); 
+        m[0].initialiseBackProp();
+        expect(a.delta).toEqual(new Matrix(2, 8, 0));
+        expect(b.delta).toEqual(new Matrix(8, 3, 0));
+        m[0].addDirsPropagate();
+        //console.log(Matrix.subtract(a.value, Matrix.scalerMultiply(a.delta, 0.01)));
+        //console.log(Matrix.subtract(b.value, Matrix.scalerMultiply(b.delta, 0.01)));
 
-        let a = Matrix.scalerMultiply(Matrix.multiply(x.value, x.value), 12);
+        /*let a = Matrix.scalerMultiply(Matrix.multiply(x.value, x.value), 12);
         let b = Matrix.scalerMultiply(x.value, -12);
         let c = new Matrix(2, 3, -11);
         let y = Matrix.add(Matrix.add(a, b), c);
-        expect(x.delta.values[0][0]).toBeCloseTo(y.values[0][0]);
+        expect(x.delta.values[0][0]).toBeCloseTo(y.values[0][0]);*/
     })
 
     test("reset deltas", ()=> {
-        m[7].resetDelta(0);
-        m[7].initialiseBackProp();
+        m[0].resetDelta(0);
+        m[0].initialiseBackProp();
         m.forEach(x=>expect(x.delta).toEqual(new Matrix(2, 3, 0)));
-        m[7].resetDelta(1);
+        m[0].resetDelta(1);
     })
 })

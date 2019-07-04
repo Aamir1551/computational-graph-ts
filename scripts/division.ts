@@ -13,11 +13,10 @@ export class Divide extends CompNode {
 
     addDirivatives(): void {
 
-        //maybe add scaler division as matrix operation
-        let bReciprocal = Matrix.divide(new Matrix(this.feeders[1].value.rows, this.feeders[1].value.columns, 1), this.feeders[1].value)
+        let bReciprocal = Matrix.divideScaler(1, this.feeders[1].value)
         let bReciprocalSquared = Matrix.multiply(bReciprocal, bReciprocal);
         let negativeX = Matrix.scalerMultiply(this.feeders[0].value, -1);
-        CompNode.updateDelta(this.feeders[0], Matrix.multiply(Matrix.multiply(bReciprocal, this.feeders[0].value), this._delta));
+        CompNode.updateDelta(this.feeders[0], Matrix.multiply(bReciprocal,  this._delta));
         CompNode.updateDelta(this.feeders[1], Matrix.multiply(negativeX, Matrix.multiply(bReciprocalSquared, this._delta)));
     }
 
@@ -25,7 +24,7 @@ export class Divide extends CompNode {
         this._value = Matrix.divide(this.feeders[0].value, this.feeders[1].value);
     }
 
-    resetDelta() {
-        //maybe add inverse matrix operation
+    resetDelta(d:number=0) {
+        this._delta = new Matrix(this.feeders[0].value.rows, this.feeders[0].value.columns, d);
     }   
 }

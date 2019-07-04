@@ -108,6 +108,17 @@ export class Matrix {
         return c;
     }
 
+    //not tested
+    static divideScaler(a:number, b:Matrix) : Matrix { 
+        let c:Matrix = new Matrix(b.rows, b.columns);
+        for(let i=0; i<b.rows; i++) {
+            for(let j=0; j<b.columns; j++) {
+                c._values[i][j] = a/b._values[i][j];
+            }
+        }
+        return c;
+    }
+
     static divide(a:Matrix, b:Matrix) : Matrix {
         if(a.shape != b.shape) {
             throw new Error("Shapes do not conform");
