@@ -8,10 +8,6 @@ export class subtract extends CompNode {
         CompNode.updateDelta(this.feeders[1], Matrix.multiply(new Matrix(this.feeders[0].value.rows, this.feeders[0].value.columns, -1), this._delta));
     }
 
-    resetDelta(d:number = 0) {
-        this._delta = new Matrix(this.feeders[0].value.rows, this.feeders[0].value.columns, d);
-    }
-
     public constructor(a:CompNode, b:CompNode) {
        super();
        this.feeders.push(a);

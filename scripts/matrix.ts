@@ -151,5 +151,48 @@ export class Matrix {
         return c;
     }
 
+    static power(a:Matrix, b:Matrix) : Matrix {
+        if(a.shape != b.shape) {
+            throw new Error("Shapes do not conform for power");
+        }
+        let c = new Matrix(a.rows, a.columns, 0);
+        for(let i=0; i<a.rows; i++) {
+            for(let j=0; j<a.columns; j++) {
+                c._values[i][j] = Math.pow(a._values[i][j], b._values[i][j]);
+            }
+        }
+        return c;
+    }
+
+    static scalerPower(a:Matrix, b:number) : Matrix {
+        let c = new Matrix(a.rows, a.columns, 0);
+        for(let i=0; i<a.rows; i++) {
+            for(let j=0; j<a.columns; j++) {
+                c._values[i][j] = Math.pow(a._values[i][j], b);
+            }
+        }
+        return c;
+    }
+
+    static powerScaler(a:number, b:Matrix) : Matrix {
+        let c = new Matrix(b.rows, b.columns, 0);
+        for(let i=0; i<b.rows; i++) {
+            for(let j=0; j<b.columns; j++) {
+                c._values[i][j] = Math.pow(a, b._values[i][j]);
+            }
+        }
+        return c;
+    }
+
+    static applyFunction(f:(arg0:number)=>number, a:Matrix) : Matrix {
+        let c = new Matrix(a.rows, a.columns, 0);
+        for(let i=0; i<a.rows; i++) {
+            for(let j=0; j<a.columns; j++) {
+                c._values[i][j] = f(a._values[i][j]);
+            }
+        }
+        return c;       
+    }
+
 
 }

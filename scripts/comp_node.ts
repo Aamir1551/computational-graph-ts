@@ -36,7 +36,9 @@ export abstract class CompNode {
         n._delta = Matrix.add(n._delta, dx);
     }
     
-    abstract resetDelta(d:number):void; 
+    public resetDelta(d:number):void {
+        this._delta = new Matrix(this.value.rows, this.value.columns, d);
+    }; 
 
     public initializeDelta(d:Matrix):void {
         this.deltasCollected = 0;

@@ -24,7 +24,4 @@ export class Divide extends CompNode {
         this._value = Matrix.divide(this.feeders[0].value, this.feeders[1].value);
     }
 
-    resetDelta(d:number=0) {
-        this._delta = new Matrix(this.feeders[0].value.rows, this.feeders[0].value.columns, d);
-    }   
 }

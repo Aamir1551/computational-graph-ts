@@ -5,10 +5,6 @@ export class Variable extends CompNode {
 
     addDirivatives(): void {}
 
-    resetDelta(d:number = 0) {
-        this._delta = new Matrix(this.initialValue.rows, this.initialValue.columns, d);
-    }
-    
     constructor(public initialValue:Matrix, public optimise=true) {
         super();
         this._value = this.initialValue;
