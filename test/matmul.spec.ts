@@ -59,12 +59,8 @@ describe("Matmul node graph (a**b = y)", () => {
         m[0].addDirsPropagate();
         //console.log(Matrix.subtract(a.value, Matrix.scalerMultiply(a.delta, 0.01)));
         //console.log(Matrix.subtract(b.value, Matrix.scalerMultiply(b.delta, 0.01)));
+        //test using tensorflow (been tested and works)
 
-        /*let a = Matrix.scalerMultiply(Matrix.multiply(x.value, x.value), 12);
-        let b = Matrix.scalerMultiply(x.value, -12);
-        let c = new Matrix(2, 3, -11);
-        let y = Matrix.add(Matrix.add(a, b), c);
-        expect(x.delta.values[0][0]).toBeCloseTo(y.values[0][0]);*/
     })
 
     test("reset deltas", ()=> {
