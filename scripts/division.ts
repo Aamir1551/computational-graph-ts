@@ -12,7 +12,6 @@ export class Divide extends CompNode {
     }
 
     addDirivatives(): void {
-
         let bReciprocal = Matrix.divideScaler(1, this.feeders[1].value)
         let bReciprocalSquared = Matrix.multiply(bReciprocal, bReciprocal);
         let negativeX = Matrix.scalerMultiply(this.feeders[0].value, -1);
