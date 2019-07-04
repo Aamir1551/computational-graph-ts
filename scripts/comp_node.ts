@@ -5,13 +5,13 @@ export abstract class CompNode {
     
     protected _value:Matrix;
     protected feeders:Array<CompNode> = [];
-    protected feeds:Array<CompNode> = [];
+    protected numFeeders:number = 0;
     protected _delta:Matrix;
     protected deltasCollected:number = 0;
 
     public constructor() {}
 
-    //comuters a value for that node (using its feeders value and its operation)
+    //computes a value for that node (using its feeders value and its operation)
     public abstract compute() : void;
     
     public computeNew() : void {
@@ -20,7 +20,7 @@ export abstract class CompNode {
     } //computers a new value for that node and for its feeeders (recursively)
 
     public static addFeeds(feeder : CompNode, leacher : CompNode) : void {
-        feeder.feeds.push(leacher);
+        feeder.numFeeders++;
     }
 
     get value() {
@@ -53,6 +53,6 @@ export abstract class CompNode {
 
     public addDirsPropagate() : void { //calculates new derivatives for itself and its feeders (recursively)
         this.addDirivatives();
-        this.feeders.forEach(x=>{if(x.deltasCollected == x.feeds.length){x.addDirsPropagate()}});
+        this.feeders.forEach(x=>{if(x.deltasCollected == x.numFeeders){x.addDirsPropagate()}});
     }
 }

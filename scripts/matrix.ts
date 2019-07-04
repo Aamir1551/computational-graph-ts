@@ -133,6 +133,8 @@ export class Matrix {
         return c;
     }
 
+    //all functions below are untested (except transpose)
+
     static determinant(a:Matrix) : number{
         throw new Error("Method not implemented");
     }
